@@ -5,7 +5,6 @@ const Login = () => {
   return (
     <S.SignContent>
       <Signin />
-      <div>aa</div>
     </S.SignContent>
   );
 };
