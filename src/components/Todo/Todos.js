@@ -4,7 +4,6 @@ import { useState } from "react";
 
 const TodosList = styled.li`
   margin: 1rem;
-  width: 100vw;
   display: flex;
   justify-content: center;
 `;
@@ -15,13 +14,13 @@ const AAA = styled.label`
   margin: 1rem;
 `;
 
-const Todos = (data) => {
-  const { todo, isCompleted, id } = data.data;
+const Todos = ({ data, getTodos }) => {
+  const { todo, isCompleted, id } = data;
   const [modify, setModify] = useState(false);
   const [modifyInput, setModifyInput] = useState("");
   const [checked, setCkecked] = useState(isCompleted);
   const access_token = localStorage.getItem("access_token");
-  const BASE_URL = "https://pre-onboarding-selection-task.shop";
+  const BASE_URL = process.env.REACT_APP_API_URL;
 
   const modifyHandler = (e) => {
     setModifyInput(e.target.value);
@@ -52,6 +51,7 @@ const Todos = (data) => {
       },
     }).then(() => {
       alert("수정되었습니다");
+      getTodos();
     });
   };
 
@@ -72,6 +72,7 @@ const Todos = (data) => {
       },
     }).then(() => {
       alert("삭제되었습니다");
+      getTodos();
     });
   };
 
