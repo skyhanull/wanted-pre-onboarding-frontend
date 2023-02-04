@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as S from "./SignStyle";
 
 const Signin = () => {
@@ -9,8 +9,8 @@ const Signin = () => {
   const [emailErr, setEmailErr] = useState(false);
 
   const navigate = useNavigate();
-  const BASE_URL = "https://pre-onboarding-selection-task.shop";
-  console.log(BASE_URL);
+  const BASE_URL = process.env.REACT_APP_API_URL;
+
   const access_token = localStorage.getItem("access_token");
   const passwordreg = /^.{8,}$/;
 
@@ -18,7 +18,6 @@ const Signin = () => {
     if (access_token) {
       navigate("/todo");
     }
-    console.log(BASE_URL);
   }, []);
 
   useEffect(() => {
@@ -62,29 +61,41 @@ const Signin = () => {
   };
 
   return (
-    <S.SignBackground>
-      <S.SignupContent onSubmit={submitHandler}>
-        <S.SignInput
-          type="text"
-          data-testid="email-input"
-          placeholder="Email"
-          onChange={emailChangeHandler}
-        ></S.SignInput>
-        <S.SignInput
-          type="number"
-          data-testid="password-input"
-          placeholder="Password"
-          onChange={passwordChangeHandler}
-        ></S.SignInput>
-        <S.SignBtn
-          type="submit"
-          disabled={emailErr ? true : false}
-          data-testid="signin-button"
-        >
-          Login
-        </S.SignBtn>
-      </S.SignupContent>
-    </S.SignBackground>
+    <div>
+      <h1>로그인</h1>
+      <S.SignBackground>
+        <S.SignupContent onSubmit={submitHandler}>
+          <S.SignInput
+            type="text"
+            data-testid="email-input"
+            placeholder="Email"
+            onChange={emailChangeHandler}
+          ></S.SignInput>
+          <S.SignInput
+            type="password"
+            data-testid="password-input"
+            placeholder="Password"
+            autoComplete="off"
+            onChange={passwordChangeHandler}
+          ></S.SignInput>
+          <S.SignBtn
+            type="submit"
+            disabled={emailErr ? true : false}
+            data-testid="signin-button"
+          >
+            Login
+          </S.SignBtn>
+        </S.SignupContent>
+        <S.RouterLink>
+          <Link to="/signup">
+            <span>회원가입을 원하신다면?</span>
+          </Link>
+          <Link to="/">
+            <span>홈으로 돌아가길 원하신다면?</span>
+          </Link>
+        </S.RouterLink>
+      </S.SignBackground>
+    </div>
   );
 };
 
