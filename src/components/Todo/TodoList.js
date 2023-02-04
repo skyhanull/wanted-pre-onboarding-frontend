@@ -4,6 +4,32 @@ import Todos from "./Todos";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+const TodoListBackground = styled.div`
+  background-color: rgba(186, 232, 242, 0.6);
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  border-style: double;
+  border-width: 1rem;
+  border-color: rgba(36, 125, 194, 0.67);
+`;
+
+const TitleTodoList = styled.span`
+  display: flex;
+  justify-content: center;
+  font-size: 40px;
+  margin-bottom: 5rem;
+  font-weight: bold;
+`;
+
+const TodoContent = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5rem;
+`;
+
 const TodoInput = styled.input`
   width: 15rem;
   height: 2rem;
@@ -14,16 +40,23 @@ const TodoAddBtn = styled.button`
   height: 2rem;
 `;
 
+const ListBody = styled.div`
+  background-color: rgba(0, 0, 0, 0.3);
+`;
+
 const TodoList = () => {
   const [todoInput, setTodoInput] = useState("");
   const [todoLists, setTodoLists] = useState([]);
   const access_token = localStorage.getItem("access_token");
-  const BASE_URL = "https://pre-onboarding-selection-task.shop";
+
+  const BASE_URL = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!access_token) {
       navigate("/signin");
+    } else {
+      getTodos();
     }
   }, []);
 
@@ -31,17 +64,19 @@ const TodoList = () => {
     setTodoInput(e.target.value);
   };
 
-  useEffect(() => {
+  const getTodos = () => {
     axios({
       method: "get",
       url: `${BASE_URL}/todos`,
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
-    }).then((res) => {
-      setTodoLists(res.data);
-    });
-  }, [todoLists]);
+    })
+      .then((res) => setTodoLists(res.data))
+      .catch((error) => {
+        throw new Error(error);
+      });
+  };
 
   const ViewHandler = (e) => {
     e.preventDefault();
@@ -55,25 +90,37 @@ const TodoList = () => {
       data: {
         todo: todoInput,
       },
-    }).then((res) => {
-      console.log(res);
-    });
+    })
+      .then(() => {
+        setTodoInput("");
+        getTodos();
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
   };
 
   return (
-    <div>
-      <TodoInput
-        type="text"
-        data-testid="new-todo-input"
-        onChange={TodoInputHandler}
-      />
-      <TodoAddBtn data-testid="new-todo-add-button" onClick={ViewHandler}>
-        추가
-      </TodoAddBtn>
-      {todoLists.map((el) => (
-        <Todos key={el.id} data={el}></Todos>
-      ))}
-    </div>
+    <TodoListBackground>
+      <TitleTodoList>TODOLIST</TitleTodoList>
+      <TodoContent>
+        <TodoInput
+          type="text"
+          data-testid="new-todo-input"
+          onChange={TodoInputHandler}
+          value={todoInput}
+        />
+        <TodoAddBtn data-testid="new-todo-add-button" onClick={ViewHandler}>
+          추가
+        </TodoAddBtn>
+      </TodoContent>
+      <ListBody>
+        {todoLists &&
+          todoLists.map((el) => (
+            <Todos key={el.id} data={el} getTodos={getTodos}></Todos>
+          ))}
+      </ListBody>
+    </TodoListBackground>
   );
 };
 
