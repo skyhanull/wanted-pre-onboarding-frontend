@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import * as S from "./SignStyle";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
-  const [emailErr, setEmailErr] = useState(false);
+  const [errMessage, setErrMessage] = useState(false);
 
-  const BASE_URL = "https://pre-onboarding-selection-task.shop";
+  // const BASE_URL = "https://pre-onboarding-selection-task.shop";
+  const BASE_URL = process.env.REACT_APP_API_URL;
   const access_token = localStorage.getItem("access_token");
   const passwordreg = /^.{8,}$/;
   const navigate = useNavigate();
@@ -21,9 +22,9 @@ const Signup = () => {
 
   useEffect(() => {
     if (!emailInput.includes("@") || !passwordreg.test(passwordInput)) {
-      setEmailErr(true);
+      setErrMessage(true);
     } else {
-      setEmailErr(false);
+      setErrMessage(false);
     }
   }, [emailInput, passwordInput]);
 
@@ -53,34 +54,47 @@ const Signup = () => {
         navigate("/signin");
       })
       .catch((error) => {
+        alert("회원가입에 실패하셨습니다");
         throw new Error(error);
       });
   };
 
   return (
-    <S.SignBackground>
-      <S.SignupContent onSubmit={submitHandler}>
-        <S.SignInput
-          type="text"
-          data-testid="email-input"
-          placeholder="Email"
-          onChange={emailChangeHandler}
-        ></S.SignInput>
-        <S.SignInput
-          type="number"
-          data-testid="password-input"
-          placeholder="Password"
-          onChange={passwordChangeHandler}
-        ></S.SignInput>
-        <S.SignBtn
-          type="submit"
-          disabled={emailErr ? true : false}
-          data-testid="signup-button"
-        >
-          Signup
-        </S.SignBtn>
-      </S.SignupContent>
-    </S.SignBackground>
+    <div>
+      <h1>회원가입</h1>
+      <S.SignBackground>
+        <S.SignupContent onSubmit={submitHandler}>
+          <S.SignInput
+            type="text"
+            data-testid="email-input"
+            placeholder="Email"
+            onChange={emailChangeHandler}
+          ></S.SignInput>
+          <S.SignInput
+            type="password"
+            data-testid="password-input"
+            placeholder="Password"
+            onChange={passwordChangeHandler}
+            autoComplete="off"
+          ></S.SignInput>
+          <S.SignBtn
+            type="submit"
+            disabled={errMessage ? true : false}
+            data-testid="signup-button"
+          >
+            Signup
+          </S.SignBtn>
+        </S.SignupContent>
+        <S.RouterLink>
+          <Link to="/signin">
+            <span>로그인을 원하신다면?</span>
+          </Link>
+          <Link to="/">
+            <span>홈으로 돌아가길 원하신다면?</span>
+          </Link>
+        </S.RouterLink>
+      </S.SignBackground>
+    </div>
   );
 };
 
