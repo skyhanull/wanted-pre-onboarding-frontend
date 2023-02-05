@@ -42,6 +42,8 @@ const TodoAddBtn = styled.button`
 
 const ListBody = styled.section`
   background-color: rgba(0, 0, 0, 0.3);
+  overflow: scroll;
+  height: 40rem;
 `;
 
 const TodoList = () => {
@@ -54,7 +56,7 @@ const TodoList = () => {
     if (!access_token) {
       navigate("/signin");
     } else {
-      getTodos(setTodoLists);
+      getTodos(setTodoLists, todoLists);
     }
   }, []);
 
@@ -62,40 +64,8 @@ const TodoList = () => {
     setTodoInput(e.target.value);
   };
 
-  // const getTodos = () => {
-  //   axios({
-  //     method: "get",
-  //     url: `${BASE_URL}/todos`,
-  //     headers: {
-  //       Authorization: `Bearer ${access_token}`,
-  //     },
-  //   })
-  //     .then((res) => setTodoLists(res.data))
-  //     .catch((error) => {
-  //       throw new Error(error);
-  //     });
-  // };
-
   const PostHandler = (e) => {
     e.preventDefault();
-    // axios({
-    //   method: "post",
-    //   url: `${BASE_URL}/todos`,
-    //   headers: {
-    //     Authorization: `Bearer ${access_token}`,
-    //     "Content-type": "application/json",
-    //   },
-    //   data: {
-    //     todo: todoInput,
-    //   },
-    // })
-    //   .then(() => {
-    //     setTodoInput("");
-    //     getTodos(setTodoLists);
-    //   })
-    //   .catch((error) => {
-    //     throw new Error(error);
-    //   });
     postTodos(todoInput, setTodoLists, setTodoInput);
   };
 
