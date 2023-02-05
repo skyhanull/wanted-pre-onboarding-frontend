@@ -38,7 +38,6 @@ const Todos = ({ data, setTodoLists }) => {
   const updateHandler = (e) => {
     e.preventDefault();
     putTodos(id, modifyInput, checked, setTodoLists);
-    setModifyInput("");
     setModify(false);
   };
 
