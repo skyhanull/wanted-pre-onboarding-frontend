@@ -5,16 +5,13 @@ export const API = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}`,
   headers: {
     "Content-Type": "application/json ",
+    Authorization: `Bearer ${access_token}`,
   },
 });
 
 export const getTodos = async (setTodoLists) => {
   try {
-    const res = await API.get("/todos", {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    });
+    const res = await API.get("/todos");
     setTodoLists(res.data);
   } catch (error) {
     throw new Error(error);
@@ -22,19 +19,11 @@ export const getTodos = async (setTodoLists) => {
 };
 
 export const postTodos = async (todo, setTodoLists, setTodoInput) => {
-  const access_token = localStorage.getItem("access_token");
+  // const access_token = localStorage.getItem("access_token");
   try {
-    await API.post(
-      "/todos",
-      {
-        todo: todo,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-        },
-      }
-    );
+    await API.post("/todos", {
+      todo: todo,
+    });
     setTodoInput("");
     getTodos(setTodoLists);
   } catch (error) {
@@ -44,19 +33,10 @@ export const postTodos = async (todo, setTodoLists, setTodoInput) => {
 
 export const putTodos = async (id, modifyInput, checked, setTodoLists) => {
   try {
-    await API.put(
-      `todos/${id}`,
-      {
-        todo: modifyInput,
-        isCompleted: checked,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-        },
-      }
-    );
-    alert("수정되었습니다");
+    await API.put(`todos/${id}`, {
+      todo: modifyInput,
+      isCompleted: checked,
+    });
     getTodos(setTodoLists);
   } catch (error) {
     throw new Error(error);
@@ -65,14 +45,16 @@ export const putTodos = async (id, modifyInput, checked, setTodoLists) => {
 
 export const deleteTodos = async (id, setTodoLists) => {
   try {
-    await API.delete(`/todos/${id}`, {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    });
+    await API.delete(`/todos/${id}`);
     alert("삭제되었습니다");
     getTodos(setTodoLists);
   } catch (error) {
     throw new Error(error);
   }
 };
+
+// {
+//   headers: {
+//     Authorization: `Bearer ${access_token}`,
+//   },
+// }
