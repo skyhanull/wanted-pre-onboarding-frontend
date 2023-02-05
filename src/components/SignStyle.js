@@ -1,16 +1,16 @@
 import styled from "styled-components";
 
-export const SignContent = styled.main`
+export const SignContent = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
 export const SignBackground = styled.main`
-  width: 40rem;
-  height: 30rem;
+  width: 25rem;
+  height: 20rem;
   background-color: rgba(186, 232, 242, 0.6);
   display: flex;
   justify-content: center;
@@ -26,8 +26,7 @@ export const SignupContent = styled.form`
 export const SignInput = styled.input`
   border-radius: 10px;
   border: blue;
-  width: 20rem;
-  height: 3rem;
+  height: 2rem;
   margin: 1rem;
   font-size: 20px;
 `;
@@ -46,7 +45,7 @@ export const SignBtn = styled.button`
   }
 `;
 
-export const RouterLink = styled.div`
+export const RouterLinkContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
