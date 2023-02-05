@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import * as S from "./SignStyle";
+import { SignApi } from "../apis/Sign";
 
 const Signin = () => {
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
-  const [emailErr, setEmailErr] = useState(false);
+  // const [emailErr, setEmailErr] = useState(false);
 
   const navigate = useNavigate();
-  const BASE_URL = process.env.REACT_APP_API_URL;
 
   const access_token = localStorage.getItem("access_token");
   const passwordreg = /^.{8,}$/;
@@ -18,46 +17,51 @@ const Signin = () => {
     if (access_token) {
       navigate("/todo");
     }
-  }, []);
+  }, [access_token]);
 
-  useEffect(() => {
-    if (!emailInput.includes("@") || !passwordreg.test(passwordInput)) {
-      setEmailErr(true);
-    } else {
-      setEmailErr(false);
-    }
-  }, [emailInput, passwordInput]);
+  // useEffect(() => {
+  //   if (!emailInput.includes("@") || !passwordreg.test(passwordInput)) {
+  //     setEmailErr(true);
+  //   } else {
+  //     setEmailErr(false);
+  //   }
+  // }, [emailInput, passwordInput]);
 
-  const emailChangeHandler = (e) => {
-    setEmailInput(e.target.value);
-  };
+  // const emailChangeHandler = (e) => {
+  //   setEmailInput(e.target.value);
+  // };
 
-  const passwordChangeHandler = (e) => {
-    setPasswordInput(e.target.value);
-  };
+  // const passwordChangeHandler = (e) => {
+  //   setPasswordInput(e.target.value);
+  // };
 
-  const submitHandler = (e) => {
+  // const submitHandler = (e) => {
+  //   e.preventDefault();
+
+  //   SignApi("signin", emailInput, passwordInput)
+  //     .then((res) => {
+  //       alert("로그인에 성공하셨습니다");
+  //       const access_token = res.data.access_token;
+  //       localStorage.setItem("access_token", access_token);
+  //       navigate("/todo");
+  //     })
+  //     .catch((error) => {
+  //       alert("로그인에 실패하셨습니다");
+  //       throw new Error(error);
+  //     });
+  // };
+
+  const submitHandler = async (e) => {
     e.preventDefault();
-
-    axios({
-      method: "post",
-      url: `${BASE_URL}/auth/signin`,
-      data: {
-        email: emailInput,
-        password: passwordInput,
-      },
-      headers: {
-        "Content-type": "application/json",
-      },
-    })
-      .then((res) => {
-        const access_token = res.data.access_token;
-        localStorage.setItem("access_token", access_token);
-        navigate("/todo");
-      })
-      .catch((error) => {
-        throw new Error(error);
-      });
+    try {
+      const res = await SignApi("signin", emailInput, passwordInput);
+      const access_token = res.data.access_token;
+      localStorage.setItem("access_token", access_token);
+      navigate("/todo");
+    } catch (error) {
+      alert("로그인에 실패하셨습니다");
+      throw new Error(error);
+    }
   };
 
   return (
@@ -69,18 +73,22 @@ const Signin = () => {
             type="text"
             data-testid="email-input"
             placeholder="Email"
-            onChange={emailChangeHandler}
+            value={emailInput}
+            onChange={(e) => setEmailInput(e.target.value)}
           ></S.SignInput>
           <S.SignInput
             type="password"
             data-testid="password-input"
             placeholder="Password"
             autoComplete="off"
-            onChange={passwordChangeHandler}
+            value={passwordInput}
+            onChange={(e) => setPasswordInput(e.target.value)}
           ></S.SignInput>
           <S.SignBtn
             type="submit"
-            disabled={emailErr ? true : false}
+            disabled={
+              !emailInput.includes("@") || !passwordreg.test(passwordInput)
+            }
             data-testid="signin-button"
           >
             Login
