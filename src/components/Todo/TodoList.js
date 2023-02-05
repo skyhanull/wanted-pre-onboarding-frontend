@@ -1,10 +1,10 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import Todos from "./Todos";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { getTodos, postTodos } from "../../apis/TodoApi";
 
-const TodoListBackground = styled.div`
+const TodoListBackground = styled.main`
   background-color: rgba(186, 232, 242, 0.6);
   width: 50vw;
   height: 100vh;
@@ -24,7 +24,7 @@ const TitleTodoList = styled.span`
   font-weight: bold;
 `;
 
-const TodoContent = styled.div`
+const TodoContent = styled.section`
   display: flex;
   justify-content: center;
   margin-bottom: 5rem;
@@ -40,7 +40,7 @@ const TodoAddBtn = styled.button`
   height: 2rem;
 `;
 
-const ListBody = styled.div`
+const ListBody = styled.section`
   background-color: rgba(0, 0, 0, 0.3);
 `;
 
@@ -48,15 +48,13 @@ const TodoList = () => {
   const [todoInput, setTodoInput] = useState("");
   const [todoLists, setTodoLists] = useState([]);
   const access_token = localStorage.getItem("access_token");
-
-  const BASE_URL = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!access_token) {
       navigate("/signin");
     } else {
-      getTodos();
+      getTodos(setTodoLists);
     }
   }, []);
 
@@ -64,40 +62,41 @@ const TodoList = () => {
     setTodoInput(e.target.value);
   };
 
-  const getTodos = () => {
-    axios({
-      method: "get",
-      url: `${BASE_URL}/todos`,
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    })
-      .then((res) => setTodoLists(res.data))
-      .catch((error) => {
-        throw new Error(error);
-      });
-  };
+  // const getTodos = () => {
+  //   axios({
+  //     method: "get",
+  //     url: `${BASE_URL}/todos`,
+  //     headers: {
+  //       Authorization: `Bearer ${access_token}`,
+  //     },
+  //   })
+  //     .then((res) => setTodoLists(res.data))
+  //     .catch((error) => {
+  //       throw new Error(error);
+  //     });
+  // };
 
-  const ViewHandler = (e) => {
+  const PostHandler = (e) => {
     e.preventDefault();
-    axios({
-      method: "post",
-      url: `${BASE_URL}/todos`,
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-        "Content-type": "application/json",
-      },
-      data: {
-        todo: todoInput,
-      },
-    })
-      .then(() => {
-        setTodoInput("");
-        getTodos();
-      })
-      .catch((error) => {
-        throw new Error(error);
-      });
+    // axios({
+    //   method: "post",
+    //   url: `${BASE_URL}/todos`,
+    //   headers: {
+    //     Authorization: `Bearer ${access_token}`,
+    //     "Content-type": "application/json",
+    //   },
+    //   data: {
+    //     todo: todoInput,
+    //   },
+    // })
+    //   .then(() => {
+    //     setTodoInput("");
+    //     getTodos(setTodoLists);
+    //   })
+    //   .catch((error) => {
+    //     throw new Error(error);
+    //   });
+    postTodos(todoInput, setTodoLists, setTodoInput);
   };
 
   return (
@@ -110,14 +109,18 @@ const TodoList = () => {
           onChange={TodoInputHandler}
           value={todoInput}
         />
-        <TodoAddBtn data-testid="new-todo-add-button" onClick={ViewHandler}>
+        <TodoAddBtn
+          type="submit"
+          data-testid="new-todo-add-button"
+          onClick={PostHandler}
+        >
           추가
         </TodoAddBtn>
       </TodoContent>
       <ListBody>
         {todoLists &&
           todoLists.map((el) => (
-            <Todos key={el.id} data={el} getTodos={getTodos}></Todos>
+            <Todos key={el.id} data={el} setTodoLists={setTodoLists}></Todos>
           ))}
       </ListBody>
     </TodoListBackground>
