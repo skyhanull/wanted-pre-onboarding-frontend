@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as S from "./SignStyle";
-import { SignApi } from "../apis/Sign";
+import { SignApi } from "../apis/SignApi";
 
 const Signin = () => {
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
-  // const [emailErr, setEmailErr] = useState(false);
 
   const navigate = useNavigate();
 
@@ -18,38 +17,6 @@ const Signin = () => {
       navigate("/todo");
     }
   }, [access_token]);
-
-  // useEffect(() => {
-  //   if (!emailInput.includes("@") || !passwordreg.test(passwordInput)) {
-  //     setEmailErr(true);
-  //   } else {
-  //     setEmailErr(false);
-  //   }
-  // }, [emailInput, passwordInput]);
-
-  // const emailChangeHandler = (e) => {
-  //   setEmailInput(e.target.value);
-  // };
-
-  // const passwordChangeHandler = (e) => {
-  //   setPasswordInput(e.target.value);
-  // };
-
-  // const submitHandler = (e) => {
-  //   e.preventDefault();
-
-  //   SignApi("signin", emailInput, passwordInput)
-  //     .then((res) => {
-  //       alert("로그인에 성공하셨습니다");
-  //       const access_token = res.data.access_token;
-  //       localStorage.setItem("access_token", access_token);
-  //       navigate("/todo");
-  //     })
-  //     .catch((error) => {
-  //       alert("로그인에 실패하셨습니다");
-  //       throw new Error(error);
-  //     });
-  // };
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -94,14 +61,14 @@ const Signin = () => {
             Login
           </S.SignBtn>
         </S.SignupContent>
-        <S.RouterLink>
+        <S.RouterLinkContent>
           <Link to="/signup">
             <span>회원가입을 원하신다면?</span>
           </Link>
           <Link to="/">
             <span>홈으로 돌아가길 원하신다면?</span>
           </Link>
-        </S.RouterLink>
+        </S.RouterLinkContent>
       </S.SignBackground>
     </div>
   );
