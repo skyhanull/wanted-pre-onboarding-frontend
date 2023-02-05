@@ -1,13 +1,30 @@
-wanted-pre-onboarding-frontend
-원티드 프리온보딩 프론트엔드 인턴쉽 선발과제
+<h1>wanted-pre-onboarding-frontend</h1>
+원티드 프리온보딩 프론트엔드 인턴쉽 선발과제</br></br>
 
-프로젝트 실행 방법
+<h2>프로젝트 실행 방법</h2>
 
 ---
 
-> npm install
+본 프로젝트를 클론 받아 아래 명령어로 앱을 실행할 수 있습니다.
+
+> npm install</br>
 > npm start
 
-배포
+</br>
+<h2>배포</h2>
 
 ---
+
+[배포링크](wanted-pre-onboarding-frontend-xl8u-6wqudnixg-skyhanull.vercel.app)
+
+</br>
+
+<h2>사용한 라이브러리</h2>
+
+---
+
+react-router-dom
+
+axios
+
+styled-components
