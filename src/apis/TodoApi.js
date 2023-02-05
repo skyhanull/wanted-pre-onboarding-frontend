@@ -1,5 +1,4 @@
 import axios from "axios";
-export const access_token = localStorage.getItem("access_token");
 
 export const API = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}`,
@@ -44,6 +43,7 @@ export const postTodos = async (todo, setTodoLists, setTodoInput) => {
 };
 
 export const putTodos = async (id, modifyInput, checked, setTodoLists) => {
+  const access_token = localStorage.getItem("access_token");
   try {
     await API.put(
       `todos/${id}`,
@@ -64,6 +64,7 @@ export const putTodos = async (id, modifyInput, checked, setTodoLists) => {
 };
 
 export const deleteTodos = async (id, setTodoLists) => {
+  const access_token = localStorage.getItem("access_token");
   try {
     await API.delete(`/todos/${id}`, {
       headers: {
@@ -76,9 +77,3 @@ export const deleteTodos = async (id, setTodoLists) => {
     throw new Error(error);
   }
 };
-
-// {
-//   headers: {
-//     Authorization: `Bearer ${access_token}`,
-//   },
-// }
