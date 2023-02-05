@@ -43,7 +43,9 @@ const Todos = ({ data, setTodoLists }) => {
 
   const deleteHandler = (e) => {
     e.preventDefault();
-    deleteTodos(id, setTodoLists);
+    if (window.confirm("삭제하시겠습니까?")) {
+      deleteTodos(id, setTodoLists);
+    }
   };
 
   return (
