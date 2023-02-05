@@ -1,5 +1,5 @@
 import axios from "axios";
-const access_token = localStorage.getItem("access_token");
+export const access_token = localStorage.getItem("access_token");
 
 export const API = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}`,
