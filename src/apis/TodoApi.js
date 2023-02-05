@@ -22,6 +22,7 @@ export const getTodos = async (setTodoLists) => {
 };
 
 export const postTodos = async (todo, setTodoLists, setTodoInput) => {
+  const access_token = localStorage.getItem("access_token");
   try {
     await API.post(
       "/todos",
