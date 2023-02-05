@@ -5,11 +5,11 @@ export const API = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}`,
   headers: {
     "Content-Type": "application/json ",
-    Authorization: `Bearer ${access_token}`,
   },
 });
 
 export const getTodos = async (setTodoLists) => {
+  const access_token = localStorage.getItem("access_token");
   try {
     const res = await API.get("/todos", {
       headers: {
@@ -23,7 +23,7 @@ export const getTodos = async (setTodoLists) => {
 };
 
 export const postTodos = async (todo, setTodoLists, setTodoInput) => {
-  // const access_token = localStorage.getItem("access_token");
+  const access_token = localStorage.getItem("access_token");
   try {
     await API.post(
       "/todos",
