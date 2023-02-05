@@ -1,4 +1,5 @@
 import axios from "axios";
+const access_token = localStorage.getItem("access_token");
 
 export const API = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}`,
@@ -8,18 +9,6 @@ export const API = axios.create({
 });
 
 export const getTodos = async (setTodoLists) => {
-  const access_token = localStorage.getItem("access_token");
-  // axios({
-  //   method: "get",
-  //   url: `${process.env.REACT_APP_API_URL}/todos`,
-  //   headers: {
-  //     Authorization: `Bearer ${access_token}`,
-  //   },
-  // })
-  //   .then((res) => setTodoLists(res.data))
-  //   .catch((error) => {
-  //     throw new Error(error);
-  //   });
   try {
     const res = await API.get("todos", {
       headers: {
@@ -33,25 +22,6 @@ export const getTodos = async (setTodoLists) => {
 };
 
 export const postTodos = async (todo, setTodoLists, setTodoInput) => {
-  const access_token = localStorage.getItem("access_token");
-  // axios({
-  //   method: "post",
-  //   url: `${process.env.REACT_APP_API_URL}/todos`,
-  //   headers: {
-  //     Authorization: `Bearer ${access_token}`,
-  //     "Content-type": "application/json",
-  //   },
-  //   data: {
-  //     todo: todo,
-  //   },
-  // })
-  //   .then(() => {
-  //     setTodoInput("");
-  //     getTodos(setTodoLists);
-  //   })
-  //   .catch((error) => {
-  //     throw new Error(error);
-  //   });
   try {
     await API.post(
       "todos",
@@ -72,22 +42,6 @@ export const postTodos = async (todo, setTodoLists, setTodoInput) => {
 };
 
 export const putTodos = async (id, modifyInput, checked, setTodoLists) => {
-  const access_token = localStorage.getItem("access_token");
-  // axios({
-  //   method: "put",
-  //   url: `${process.env.REACT_APP_API_URL}/todos/${id}`,
-  //   headers: {
-  //     Authorization: `Bearer ${access_token}`,
-  //     "Content-type": "application/json",
-  //   },
-  //   data: {
-  //     todo: modifyInput,
-  //     isCompleted: checked,
-  //   },
-  // }).then(() => {
-  //   alert("수정되었습니다");
-  //   getTodos(setTodoLists);
-  // });
   try {
     await API.put(
       `todos/${id}`,
@@ -109,17 +63,6 @@ export const putTodos = async (id, modifyInput, checked, setTodoLists) => {
 };
 
 export const deleteTodos = async (id, setTodoLists) => {
-  const access_token = localStorage.getItem("access_token");
-  // axios({
-  //   method: "delete",
-  //   url: `${process.env.REACT_APP_API_URL}/todos/${id}`,
-  //   headers: {
-  //     Authorization: `Bearer ${access_token}`,
-  //   },
-  // }).then(() => {
-  //   alert("삭제되었습니다");
-  //   getTodos(setTodoLists);
-  // });
   try {
     await API.delete(`todos/${id}`, {
       headers: {
