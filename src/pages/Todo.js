@@ -1,8 +1,7 @@
 import TodoList from "../components/Todo/TodoList";
 import styled from "styled-components";
 
-const TodoPage = styled.main`
-  /* margin-top: 5rem; */
+const TodoPage = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
