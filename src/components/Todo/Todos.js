@@ -58,7 +58,7 @@ const Todos = ({ data, setTodoLists }) => {
             <input
               type="text"
               data-testid="modify-input"
-              value={modifyInput}
+              defaultValue={todo}
               onChange={(e) => setModifyInput(e.target.value)}
             ></input>
             <button
