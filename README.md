@@ -15,7 +15,7 @@
 
 ---
 
-[배포링크](https://wanted-pre-onboarding-frontend-p9b5-j4ds226au-skyhanull.vercel.app/)
+[배포링크](wanted-pre-onboarding-frontend-r3v1nyods-skyhanull.vercel.app)
 
 </br>
 
