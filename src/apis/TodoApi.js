@@ -10,7 +10,7 @@ export const API = axios.create({
 
 export const getTodos = async (setTodoLists) => {
   try {
-    const res = await API.get("todos", {
+    const res = await API.get("/todos", {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
@@ -24,7 +24,7 @@ export const getTodos = async (setTodoLists) => {
 export const postTodos = async (todo, setTodoLists, setTodoInput) => {
   try {
     await API.post(
-      "todos",
+      "/todos",
       {
         todo: todo,
       },
@@ -64,7 +64,7 @@ export const putTodos = async (id, modifyInput, checked, setTodoLists) => {
 
 export const deleteTodos = async (id, setTodoLists) => {
   try {
-    await API.delete(`todos/${id}`, {
+    await API.delete(`/todos/${id}`, {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
