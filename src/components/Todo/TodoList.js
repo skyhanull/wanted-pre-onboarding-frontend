@@ -56,7 +56,7 @@ const TodoList = () => {
     if (!access_token) {
       navigate("/signin");
     } else {
-      getTodos(setTodoLists, todoLists);
+      getTodos(setTodoLists);
     }
   }, []);
 
